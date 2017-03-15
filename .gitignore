@@ -110,7 +110,7 @@ models/*
 
 # Faster-rcnn-resnet data and models
 faster-rcnn-resnet/data/*
-faster-rcnn-resnet/models/*
+# faster-rcnn-resnet/models/*
 
 
 # build, distribute, and bins (+ python proto bindings)
