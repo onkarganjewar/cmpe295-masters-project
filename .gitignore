@@ -108,9 +108,17 @@ models/*
 *leveldb
 *lmdb
 
-# Faster-rcnn-resnet data and models
+# Faster-rcnn-resnet
 faster-rcnn-resnet/data/*
 # faster-rcnn-resnet/models/*
+# *.pyc
+# .ipynb_checkpoints
+# lib/build
+# lib/pycocotools/_mask.c
+# lib/pycocotools/_mask.so
+# output
+# .idea
+
 
 
 # build, distribute, and bins (+ python proto bindings)
