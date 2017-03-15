@@ -107,9 +107,11 @@ models/*
 *.binaryproto
 *leveldb
 *lmdb
+*.tar
 
 # Faster-rcnn-resnet
-faster-rcnn-resnet/data/*
+# faster-rcnn-resnet/data/*
+faster-rcnn-resnet/data/VOCdevkit0712*
 # faster-rcnn-resnet/models/*
 # *.pyc
 # .ipynb_checkpoints
