@@ -1,0 +1,5 @@
+// Command to convert input video file to sequence of images:
+avconv -i <input_video_file> -r 30 -f image2 %04d.png
+
+// Command to convert input set of sequential images to video file:
+avconv -r 30 -i %04d.png -b:v 1000k <output_video_file> 
