@@ -8,5 +8,8 @@
     "start": "node server.js"
   },
   "author": "Nimish Unde <nimish.2092@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+  	"node": "4.2.6"
+  }
 }
