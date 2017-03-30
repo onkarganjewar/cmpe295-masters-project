@@ -1,0 +1,12 @@
+{
+  "name": "objectdetectionserver",
+  "version": "1.0.0",
+  "description": "Server code to run the object detection algorithm using input fetched from the user through a user interface ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Nimish Unde <nimish.2092@gmail.com>",
+  "license": "ISC"
+}
