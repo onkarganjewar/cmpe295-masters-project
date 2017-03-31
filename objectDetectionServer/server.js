@@ -5,6 +5,7 @@ const app = express();
 const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs');
+const exec = require('child_process').exec;
 
 app.set('port', process.env.PORT || 3000);
 
@@ -39,6 +40,16 @@ app.post('/upload', function(req, res, next){
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
     res.end('success');
+    console.log("File uploaded");
+    exec('pwd', (error, stdout, stderr) => {
+	  if (error) {
+	    console.error(`exec error: ${error}`);
+	    return;
+	  }
+	  console.log(`stdout: ${stdout}`);
+	  console.log(`stderr: ${stderr}`);
+	});
+
   });
 
   // parse the incoming request containing the form data
