@@ -13,6 +13,14 @@ Demo script showing detections in sample images.
 See README.md for installation instructions before running.
 """
 
+import sys
+#sys.path.insert(0,"/home/student/objectDetection/caffe/python")
+sys.path.insert(0,"/home/student/objectDetection/py-faster-rcnn/caffe-fast-rcnn/python")
+import matplotlib
+import glob
+import os
+import warnings
+#matplotlib.use("GTKAgg")
 import _init_paths
 from fast_rcnn.config import cfg
 from fast_rcnn.test import im_detect
@@ -34,12 +42,20 @@ CLASSES = ('__background__',
 NETS = {'vgg16': ('VGG16',
                   'VGG16_faster_rcnn_final.caffemodel'),
         'zf': ('ZF',
-                  'ZF_faster_rcnn_final.caffemodel')}
+                  'ZF_faster_rcnn_final.caffemodel'),
+        'resnet50': ('ResNet50',
+                  'ResNet50_faster_rcnn_final.caffemodel'),
+	'resnet101': ('ResNet101', 
+		   'ResNet101_faster_rcnn_final.caffemodel')}
 
 
-def vis_detections(im, class_name, dets, thresh=0.5):
+def vis_detections(im, class_name, dets, img_name, thresh=0.5):
     """Draw detected bounding boxes."""
+#    print 'vis_det called with {} and name {}'.format(im, class_name)
+#    print 'det called with {}'.format(dets)
     inds = np.where(dets[:, -1] >= thresh)[0]
+#    print 'length of inds is {}'.format(len(inds))
+
     if len(inds) == 0:
         return
 
@@ -60,6 +76,7 @@ def vis_detections(im, class_name, dets, thresh=0.5):
                 '{:s} {:.3f}'.format(class_name, score),
                 bbox=dict(facecolor='blue', alpha=0.5),
                 fontsize=14, color='white')
+    # print 'detections with {} is {}'.format(class_name, thresh)
 
     ax.set_title(('{} detections with '
                   'p({} | box) >= {:.1f}').format(class_name, class_name,
@@ -68,12 +85,18 @@ def vis_detections(im, class_name, dets, thresh=0.5):
     plt.axis('off')
     plt.tight_layout()
     plt.draw()
+    opDir = ('/home/student/objectDetection/py-faster-rcnn/data/output-images/')
+    opDir += img_name 
+
+    plt.savefig(opDir)
 
 def demo(net, image_name):
     """Detect object classes in an image using pre-computed object proposals."""
 
     # Load the demo image
-    im_file = os.path.join(cfg.DATA_DIR, 'demo', image_name)
+    # im_file = os.path.join(cfg.DATA_DIR, 'demo', image_name)
+    img_name = os.path.basename(image_name)
+    im_file = image_name
     im = cv2.imread(im_file)
 
     # Detect all object classes and regress object bounds
@@ -95,7 +118,7 @@ def demo(net, image_name):
                           cls_scores[:, np.newaxis])).astype(np.float32)
         keep = nms(dets, NMS_THRESH)
         dets = dets[keep, :]
-        vis_detections(im, cls, dets, thresh=CONF_THRESH)
+        vis_detections(im, cls, dets, img_name, thresh=CONF_THRESH)
 
 def parse_args():
     """Parse input arguments."""
@@ -105,8 +128,13 @@ def parse_args():
     parser.add_argument('--cpu', dest='cpu_mode',
                         help='Use CPU mode (overrides --gpu)',
                         action='store_true')
+    parser.add_argument('--imgdir', dest='img_dir', help='Input images directory',
+                        default='/home/student/objectDetection/py-faster-rcnn/data/demo/')
+
     parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16]',
                         choices=NETS.keys(), default='vgg16')
+#    parser.add_argument('--imgs', dest='img_set', help='Images to scan', 
+#                        nargs='*')
 
     args = parser.parse_args()
 
@@ -114,14 +142,11 @@ def parse_args():
 
 if __name__ == '__main__':
     cfg.TEST.HAS_RPN = True  # Use RPN for proposals
-
     args = parse_args()
-
     prototxt = os.path.join(cfg.MODELS_DIR, NETS[args.demo_net][0],
                             'faster_rcnn_alt_opt', 'faster_rcnn_test.pt')
     caffemodel = os.path.join(cfg.DATA_DIR, 'faster_rcnn_models',
                               NETS[args.demo_net][1])
-
     if not os.path.isfile(caffemodel):
         raise IOError(('{:s} not found.\nDid you run ./data/script/'
                        'fetch_faster_rcnn_models.sh?').format(caffemodel))
@@ -133,7 +158,6 @@ if __name__ == '__main__':
         caffe.set_device(args.gpu_id)
         cfg.GPU_ID = args.gpu_id
     net = caffe.Net(prototxt, caffemodel, caffe.TEST)
-
     print '\n\nLoaded network {:s}'.format(caffemodel)
 
     # Warmup on a dummy image
@@ -141,11 +165,23 @@ if __name__ == '__main__':
     for i in xrange(2):
         _, _= im_detect(net, im)
 
-    im_names = ['000456.jpg', '000542.jpg', '001150.jpg',
-                '001763.jpg', '004545.jpg']
-    for im_name in im_names:
-        print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-        print 'Demo for data/demo/{}'.format(im_name)
-        demo(net, im_name)
+#    if args.img_dir is None:
+#	args.img_dir = '/home/student/objectDetection/py-faster-rcnn/data/input-images'
+#	print 'No value specified'
+    
+    im_dir = args.img_dir 
+    if os.path.exists(im_dir):
+	im_dir += '/*'
+	bsdr = glob.glob(im_dir)
+    else:
+	warnings.warn("INCORRECT PATH PROVIDED... USING DEFAULT DIRECTORY NOW")
+	im_dir = '/home/student/objectDetection/py-faster-rcnn/data/demo/'
+	im_dir += '/*'
+	bsdr = glob.glob(im_dir) 
 
+    for im_name in bsdr:
+        print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+        img_name = os.path.basename(im_name)
+	print 'Demo for image {}'.format(img_name)
+	demo(net, im_name)
     plt.show()
