@@ -12,6 +12,7 @@
     "node": "4.2.6"
   },
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "formidable": "^1.1.1"
   }
 }
