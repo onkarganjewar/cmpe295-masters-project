@@ -7,11 +7,12 @@ const path = require('path');
 const fs = require('fs');
 const exec = require('child_process').exec;
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 
 app.use(express.static('public'));
 
 app.get('/', (req, res, next) => {
+	console.log("Request for index page recieved");
 	res.sendFile(__dirname + '/views/index.html');
 });
 
@@ -24,7 +25,7 @@ app.post('/upload', function(req, res, next){
   form.multiples = true;
 
   // store all uploads in the /uploads directory
-  form.uploadDir = __dirname + '/uploads';
+  form.uploadDir = '/home/student/objectDetection/py-faster-rcnn/data/demo/';
 
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
@@ -41,7 +42,7 @@ app.post('/upload', function(req, res, next){
   form.on('end', function() {
     res.end('success');
     console.log("File uploaded");
-    exec('pwd', (error, stdout, stderr) => {
+    exec('python2 /home/student/objectDetection/cmpe295-masters-project/faster-rcnn-resnet/tools/demo.py', (error, stdout, stderr) => {
 	  if (error) {
 	    console.error(`exec error: ${error}`);
 	    return;
@@ -57,4 +58,4 @@ app.post('/upload', function(req, res, next){
 
 });
 
-app.listen(app.get('port'), () => console.log("Object detection server running on port 3000"));
+app.listen(app.get('port'), () => console.log("Object detection server running on port 80"));
