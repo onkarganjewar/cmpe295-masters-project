@@ -184,4 +184,4 @@ if __name__ == '__main__':
         img_name = os.path.basename(im_name)
 	print 'Demo for image {}'.format(img_name)
 	demo(net, im_name)
-    plt.show()
+    # plt.show()

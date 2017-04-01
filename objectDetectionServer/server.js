@@ -5,7 +5,8 @@ const app = express();
 const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs');
-const exec = require('child_process').exec;
+const exec = require('child_process').execSync;
+var filename = "";
 
 app.set('port', process.env.PORT || 80);
 
@@ -31,6 +32,7 @@ app.post('/upload', function(req, res, next){
   // rename it to it's orignal name
   form.on('file', function(field, file) {
     fs.rename(file.path, path.join(form.uploadDir, file.name));
+    filename = file.name;
   });
 
   // log any errors that occur
@@ -40,7 +42,7 @@ app.post('/upload', function(req, res, next){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    res.end('success');
+    res.send("File Uploaded");
     console.log("File uploaded");
     exec('python2 /home/student/objectDetection/cmpe295-masters-project/faster-rcnn-resnet/tools/demo.py', (error, stdout, stderr) => {
 	  if (error) {
@@ -49,6 +51,7 @@ app.post('/upload', function(req, res, next){
 	  }
 	  console.log(`stdout: ${stdout}`);
 	  console.log(`stderr: ${stderr}`);
+          // res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
 	});
 
   });
