@@ -1,3 +1,5 @@
+$(document).ready(function () {
+
 $('.upload-btn').on('click', function (){
     $('#upload-input').click();
     $('.progress-bar').text('0%');
@@ -20,7 +22,7 @@ $('#upload-input').on('change', function(){
       // add the files to formData object for the data payload
       formData.append('uploads[]', file, file.name);
     }
-
+	
     $.ajax({
       url: '/upload',
       type: 'POST',
@@ -28,7 +30,14 @@ $('#upload-input').on('change', function(){
       processData: false,
       contentType: false,
       success: function(data){
-          console.log('upload successful!\n' + data);
+          //console.log('upload successful!\n' + data);
+          var b64Response = btoa(unescape(encodeURIComponent(data)));
+	  console.log(b64Response);
+          var outputImg = $('<img>');
+          outputImg.attr("width","200px");
+	  outputImg.attr("height","100px");
+          outputImg.attr("src","data:image/jpeg;base64, " + b64Response);
+          outputImg.appendTo('.jumbotron');
       },
       xhr: function() {
         // create an XMLHttpRequest
@@ -60,4 +69,7 @@ $('#upload-input').on('change', function(){
     });
 
   }
+});
+
+
 });

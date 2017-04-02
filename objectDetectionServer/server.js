@@ -42,7 +42,9 @@ app.post('/upload', function(req, res, next){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    res.send("File Uploaded");
+    //res.end("File Uploaded");
+    console.log(__dirname + '/uploads/000456.jpg');
+    //res.sendFile(__dirname + '/uploads/000456.jpg');
     console.log("File uploaded");
     exec('python2 /home/student/objectDetection/cmpe295-masters-project/faster-rcnn-resnet/tools/demo.py', (error, stdout, stderr) => {
 	  if (error) {
@@ -51,9 +53,13 @@ app.post('/upload', function(req, res, next){
 	  }
 	  console.log(`stdout: ${stdout}`);
 	  console.log(`stderr: ${stderr}`);
-          // res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
+	  //res.sendFile(__dirname + '/uploads/000456.jpg');
+	  //res.send("Object detection done!");
+	  //res.sendFile(__dirname + '/uploads/test.text');
+          //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
 	});
-
+     res.sendFile(__dirname + '/uploads/000456.jpg');
+     //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
   });
 
   // parse the incoming request containing the form data
