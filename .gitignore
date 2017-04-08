@@ -136,7 +136,14 @@ faster-rcnn-resnet/data/VOCdevkit0712*
 # output
 # .idea
 
-
+# Video files
+*.mp4
+*.mov
+*.avi
+*.mpeg
+*.flv
+*.mpg
+*.wmv
 
 # build, distribute, and bins (+ python proto bindings)
 build
