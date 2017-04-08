@@ -122,13 +122,14 @@ models/*
 *leveldb
 *lmdb
 *.tar
+*.tgz
 
 # Faster-rcnn-resnet
 # faster-rcnn-resnet/data/*
 faster-rcnn-resnet/data/VOCdevkit0712*
 # faster-rcnn-resnet/models/*
 # *.pyc
-# .ipynb_checkpoints
+.ipynb_checkpoints
 # lib/build
 # lib/pycocotools/_mask.c
 # lib/pycocotools/_mask.so
