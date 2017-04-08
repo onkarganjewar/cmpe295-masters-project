@@ -25,8 +25,8 @@ app.post('/upload', function(req, res, next){
   // specify that we want to allow the user to upload multiple files in a single request
   form.multiples = true;
 
-  // store all uploads in the /uploads directory
-  form.uploadDir = '/home/student/objectDetection/py-faster-rcnn/data/demo/';
+  // store all uploads in the mentioned directory
+  form.uploadDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/';
 
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
@@ -42,11 +42,11 @@ app.post('/upload', function(req, res, next){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    //res.end("File Uploaded");
-    console.log(__dirname + '/uploads/000456.jpg');
+    res.end("File Uploaded");
+    //console.log(__dirname + '/uploads/000456.jpg');
     //res.sendFile(__dirname + '/uploads/000456.jpg');
     console.log("File uploaded");
-    exec('python2 /home/student/objectDetection/cmpe295-masters-project/faster-rcnn-resnet/tools/demo.py', (error, stdout, stderr) => {
+    exec('python /home/student/cmpe295-masters-project/faster-rcnn-resnet/tools/demo.py', (error, stdout, stderr) => {
 	  if (error) {
 	    console.error(`exec error: ${error}`);
 	    return;
