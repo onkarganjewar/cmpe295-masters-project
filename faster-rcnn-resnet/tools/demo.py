@@ -15,12 +15,14 @@ See README.md for installation instructions before running.
 
 import sys
 #sys.path.insert(0,"/home/student/objectDetection/caffe/python")
-sys.path.insert(0,"/home/student/objectDetection/py-faster-rcnn/caffe-fast-rcnn/python")
+sys.path.insert(0,"/home/student/cmpe295-masters-project/faster-rcnn-resnet/py-faster-rcnn/caffe-fast-rcnn/python")
+sys.path.append('/usr/local/lib/python2.7/dist-packages/')
 import matplotlib
+matplotlib.rcParams["backend"] = "TkAgg"
 import glob
 import os
 import warnings
-#matplotlib.use("GTKAgg")
+# matplotlib.use("TkAgg")
 import _init_paths
 from fast_rcnn.config import cfg
 from fast_rcnn.test import im_detect
@@ -135,6 +137,7 @@ def demo(net, image_name):
             	cv2.rectangle(im,(bbox[0], bbox[1]), (bbox[2], bbox[3]), color, 2)
             	cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
 
+
     """	
     # Display the resulting frame
     cv2.imshow('{:s}'.format(image_name),im)
@@ -148,7 +151,7 @@ def demo(net, image_name):
     # print (os.path.splitext(img_name)[0])
     # print splitName
     # cv2.imwrite('{:s}_output.jpg'.format(splitName), im)
-    opDir = '/home/student/objectDetection/py-faster-rcnn/data/output-images/'
+    opDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/'
     cv2.imwrite(os.path.join(opDir, img_name), im)
 
 def parse_args():
@@ -195,16 +198,17 @@ if __name__ == '__main__':
     for i in xrange(2):
         _, _= im_detect(net, im)
 
-    im_names = ['001763.jpg']
+    # im_names = ['001763.jpg']
     
-    im_dir = '/home/student/objectDetection/py-faster-rcnn/data/demo/'
+    im_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/'
     im_dir += '/*'
     bsdr = glob.glob(im_dir)
 
 
     for im_name in bsdr:
         print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-        print 'Demo for data/demo/{}'.format(im_name)
+        print 'Demo for {}'.format(im_name)
+        print(matplotlib.backends.backend)
         demo(net, im_name)
 
-    # plt.show()
+    plt.show()

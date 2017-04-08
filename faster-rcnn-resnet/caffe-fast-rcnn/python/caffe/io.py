@@ -1,3 +1,5 @@
+import sys
+sys.path.append('/usr/local/lib/python2.7/dist-packages/')
 import numpy as np
 import skimage.io
 from scipy.ndimage import zoom
