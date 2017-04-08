@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const exec = require('child_process').execSync;
 var filename = "";
+var base64data = "";
 
 app.set('port', process.env.PORT || 80);
 
@@ -42,7 +43,7 @@ app.post('/upload', function(req, res, next){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    res.end("File Uploaded");
+    //res.end("File Uploaded");
     //console.log(__dirname + '/uploads/000456.jpg');
     //res.sendFile(__dirname + '/uploads/000456.jpg');
     console.log("File uploaded");
@@ -58,7 +59,11 @@ app.post('/upload', function(req, res, next){
 	  //res.sendFile(__dirname + '/uploads/test.text');
           //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
 	});
-     res.sendFile(__dirname + '/uploads/000456.jpg');
+     fs.readFile('/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/' + filename, function(err, data){
+	base64data = new Buffer(data).toString('base64');
+	res.send(base64data);
+     });
+     //res.sendFile(__dirname + '/uploads/000456.jpg');
      //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
   });
 

@@ -31,12 +31,12 @@ $('#upload-input').on('change', function(){
       contentType: false,
       success: function(data){
           //console.log('upload successful!\n' + data);
-          var b64Response = btoa(unescape(encodeURIComponent(data)));
-	  console.log(b64Response);
+          //var b64Response = btoa(unescape(encodeURIComponent(data)));
+	  //console.log(b64Response);
           var outputImg = $('<img>');
-          outputImg.attr("width","200px");
-	  outputImg.attr("height","100px");
-          outputImg.attr("src","data:image/jpeg;base64, " + b64Response);
+          outputImg.attr("width","500px");
+	  outputImg.attr("height","400px");
+          outputImg.attr("src","data:image/jpeg;base64, " + data);
           outputImg.appendTo('.jumbotron');
       },
       xhr: function() {
