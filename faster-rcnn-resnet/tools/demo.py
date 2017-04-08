@@ -16,13 +16,15 @@ See README.md for installation instructions before running.
 import sys
 #sys.path.insert(0,"/home/student/objectDetection/caffe/python")
 sys.path.insert(0,"/home/student/cmpe295-masters-project/faster-rcnn-resnet/py-faster-rcnn/caffe-fast-rcnn/python")
-sys.path.append('/usr/local/lib/python2.7/dist-packages/')
+# sys.path.append('/usr/local/lib/python2.7/dist-packages/')
+import imageio
+imageio.plugins.ffmpeg.download()
+from moviepy.editor import VideoFileClip
+
 import matplotlib
-matplotlib.rcParams["backend"] = "TkAgg"
 import glob
 import os
 import warnings
-# matplotlib.use("TkAgg")
 import _init_paths
 from fast_rcnn.config import cfg
 from fast_rcnn.test import im_detect
@@ -33,6 +35,8 @@ import numpy as np
 import scipy.io as sio
 import caffe, os, sys, cv2
 import argparse
+import cv2
+import time
 
 CLASSES = ('__background__',
            'aeroplane', 'bicycle', 'bird', 'boat',
@@ -47,6 +51,7 @@ NETS = {'vgg16': ('VGG16',
                   'ZF_faster_rcnn_final.caffemodel'),
         }
 
+default_net = None
 
 def vis_detections(im, class_name, dets, thresh=0.5):
     """Draw detected bounding boxes."""
@@ -138,12 +143,12 @@ def demo(net, image_name):
             	cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
 
 
-    """	
+    	
     # Display the resulting frame
     cv2.imshow('{:s}'.format(image_name),im)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    """
+   
 
     # Write the resulting frame
     print 'Final image name is {}'.format(img_name)
@@ -169,6 +174,44 @@ def parse_args():
 
     return args
 
+def demoVideo(image):
+    
+    im = image
+    # Detect all object classes and regress object bounds
+    timer = Timer()
+    timer.tic()
+    scores, boxes = im_detect(default_net, im)
+    timer.toc()
+    print ('Detection took {:.3f}s for '
+           '{:d} object proposals').format(timer.total_time, boxes.shape[0])
+
+    # Visualize detections for each class
+    CONF_THRESH = 0.8
+    NMS_THRESH = 0.3
+    for cls_ind, cls in enumerate(CLASSES[1:]):
+        cls_ind += 1 # because we skipped background
+        cls_boxes = boxes[:, 4*cls_ind:4*(cls_ind + 1)]
+        cls_scores = scores[:, cls_ind]
+        dets = np.hstack((cls_boxes,
+                          cls_scores[:, np.newaxis])).astype(np.float32)
+        keep = nms(dets, NMS_THRESH)
+        dets = dets[keep, :]
+	font = cv2.FONT_HERSHEY_SIMPLEX
+
+	color = (0, 0, 255)	
+	inds = np.where(dets[:, -1] >= CONF_THRESH)[0]
+    	if len(inds) > 0:
+	   for i in inds:
+            	bbox = dets[i, :4]
+            	score = dets[i, -1]
+            	cv2.rectangle(im,(bbox[0], bbox[1]), (bbox[2], bbox[3]), color, 2)
+                cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
+
+    # opDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/'
+    # cv2.imwrite(os.path.join(opDir, img_name), im)
+    return im
+
+
 if __name__ == '__main__':
     cfg.TEST.HAS_RPN = True  # Use RPN for proposals
 
@@ -189,26 +232,39 @@ if __name__ == '__main__':
         caffe.set_mode_gpu()
         caffe.set_device(args.gpu_id)
         cfg.GPU_ID = args.gpu_id
-    net = caffe.Net(prototxt, caffemodel, caffe.TEST)
+    # net = caffe.Net(prototxt, caffemodel, caffe.TEST)
+    default_net = caffe.Net(prototxt, caffemodel, caffe.TEST)
 
     print '\n\nLoaded network {:s}'.format(caffemodel)
 
     # Warmup on a dummy image
     im = 128 * np.ones((300, 500, 3), dtype=np.uint8)
     for i in xrange(2):
-        _, _= im_detect(net, im)
+        _, _= im_detect(default_net, im)
 
-    # im_names = ['001763.jpg']
-    
     im_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/'
     im_dir += '/*'
     bsdr = glob.glob(im_dir)
-
-
+    """
     for im_name in bsdr:
         print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
         print 'Demo for {}'.format(im_name)
         print(matplotlib.backends.backend)
         demo(net, im_name)
+    """
 
-    plt.show()
+    clip = VideoFileClip("/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/P1_example.mp4")
+
+    start = time.time()
+    # Transform video and perform image flip
+    new_clip = clip.fl_image(demoVideo)
+
+    # Write a video to a file
+    new_clip.write_videofile("output-P1_example.mp4", audio=False)
+
+    end = time.time()
+    total_time = (end - start)
+
+    clip_len = time.strftime("%H:%M:%S", time.gmtime(clip.duration))
+    print((('Image transformations took {:.3f}s for '
+            '{} long video').format(total_time, clip_len)))
