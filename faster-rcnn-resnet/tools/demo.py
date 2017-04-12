@@ -95,6 +95,11 @@ def demo(net, image_name):
     im_file = os.path.join(cfg.DATA_DIR, 'demo', image_name)
     im = cv2.imread(im_file)
 
+    height, width = im.shape[:2]
+    mid = width/2.5
+    print('height = {} and width/2.5 = {}'.format(height, mid))
+
+
     # Detect all object classes and regress object bounds
     timer = Timer()
     timer.tic()
@@ -115,20 +120,6 @@ def demo(net, image_name):
         keep = nms(dets, NMS_THRESH)
         dets = dets[keep, :]
         # vis_detections(im, cls, dets, thresh=CONF_THRESH)
-	"""
-	op = vis_detections(im, cls, dets, img_name, thresh=CONF_THRESH)
-        print 'Returned op value is {}'.format(op)
-        if op is not None and "output-images" in op:
-                print 'OUTPUT IMAGES IS INSIDE OP STRING'
-                opVar = op
-                op = op
-        elif op == None:
-                if opVar is not None:
-                        op = opVar
-                else:
-                        op = im_file
-
-        """
 
 	font = cv2.FONT_HERSHEY_SIMPLEX
 	# print 'class index is {}'.format(cls_ind)
@@ -140,14 +131,11 @@ def demo(net, image_name):
             	bbox = dets[i, :4]
             	score = dets[i, -1]
             	cv2.rectangle(im,(bbox[0], bbox[1]), (bbox[2], bbox[3]), color, 2)
-            	cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
-
-    """	
-    # Display the resulting frame
-    cv2.imshow('{:s}'.format(image_name),im)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    """
+                if bbox[0] < mid:
+                   cv2.putText(im,'left {:s}'.format(cls),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,0,0), 1)
+                else:
+                   cv2.putText(im,'right {:s}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,0,0), 1)
+   	# cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
 
     # Write the resulting frame
     print 'Final image name is {}'.format(img_name)
@@ -155,6 +143,12 @@ def demo(net, image_name):
     # print (os.path.splitext(img_name)[0])
     # print splitName
     # cv2.imwrite('{:s}_output.jpg'.format(splitName), im)
+    
+    ## Display output frame
+    # cv2.imshow("output", im)
+    # cv2.waitKey(0)
+    
+    ## Write output frame
     opDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/'
     cv2.imwrite(os.path.join(opDir, img_name), im)
 
