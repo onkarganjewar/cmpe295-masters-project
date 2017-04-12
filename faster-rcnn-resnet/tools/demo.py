@@ -242,7 +242,7 @@ if __name__ == '__main__':
         _, _= im_detect(net, im)
 
     im_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/'
-    im_dir += '/*.jpg'
+    im_dir += '/*'
     bsdr = glob.glob(im_dir)
    
     for im_name in bsdr:
