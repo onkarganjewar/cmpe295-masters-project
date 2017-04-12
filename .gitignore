@@ -115,6 +115,7 @@ Makefile.config
 data/*
 models/*
 *.caffemodel
+!VGG16_faster_rcnn_final.caffemodel
 *.caffemodel.h5
 *.solverstate
 *.solverstate.h5
@@ -138,6 +139,7 @@ faster-rcnn-resnet/data/VOCdevkit0712*
 
 # Video files
 *.mp4
+!processed_demo_input.mp4
 *.mov
 *.avi
 *.mpeg

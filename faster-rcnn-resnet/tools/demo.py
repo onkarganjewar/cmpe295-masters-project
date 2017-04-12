@@ -163,6 +163,9 @@ def parse_args():
     parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16]',
                         choices=NETS.keys(), default='vgg16')
 
+    parser.add_argument('--vdo', dest='video_mode', help='Use video file for scan/input',
+                        action='store_true')
+
     args = parser.parse_args()
 
     return args
@@ -170,6 +173,12 @@ def parse_args():
 def demoVideo(image):
     
     im = image
+
+    height, width = im.shape[:2]
+    mid = width/2.5
+    print('height = {} and width/2.5 = {}'.format(height, mid))
+
+
     # Detect all object classes and regress object bounds
     timer = Timer()
     timer.tic()
@@ -198,10 +207,11 @@ def demoVideo(image):
             	bbox = dets[i, :4]
             	score = dets[i, -1]
             	cv2.rectangle(im,(bbox[0], bbox[1]), (bbox[2], bbox[3]), color, 2)
-                cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
-
-    # opDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/'
-    # cv2.imwrite(os.path.join(opDir, img_name), im)
+                if bbox[0] < mid:
+                   cv2.putText(im,'left {:s}'.format(cls),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,0,0), 1)
+                else:
+                   cv2.putText(im,'right {:s}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,0,0), 1)
+   	# cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
     return im
 
 
@@ -226,7 +236,7 @@ if __name__ == '__main__':
         caffe.set_device(args.gpu_id)
         cfg.GPU_ID = args.gpu_id
     net = caffe.Net(prototxt, caffemodel, caffe.TEST)
-    # default_net = net
+    default_net = net
 
     print '\n\nLoaded network {:s}'.format(caffemodel)
 
@@ -239,27 +249,33 @@ if __name__ == '__main__':
     im_dir += '/*'
     bsdr = glob.glob(im_dir)
    
-    for im_name in bsdr:
-        print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-        print 'Demo for {}'.format(im_name)
-        print(matplotlib.backends.backend)
-        demo(net, im_name)
+    if args.video_mode:
+        ## Process video files as an input
+        vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-videos/'
+        vid_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-videos/'
+        vid_dir += '*'
+        v_dir = glob.glob(vid_dir)
+        # clip = VideoFileClip("/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/P1_example.mp4")
+        for video in v_dir:
+            print 'Demo for video {}'.format(video)
+            clip = VideoFileClip(video)
+            start = time.time()
+            # Transform video and perform image flip
+            new_clip = clip.fl_image(demoVideo)
+            # Write a video to a file
+            vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-videos/'
+            video_name = os.path.basename(video)
+            output_vid = (os.path.join(vid_out_dir,'processed_'+ video_name))
+            new_clip.write_videofile(output_vid, audio=False)
+            end = time.time()
+            total_time = (end - start)
+            clip_len = time.strftime("%H:%M:%S", time.gmtime(clip.duration))
+            print((('Image transformations took {:.3f}s for '
+                    '{} long video').format(total_time, clip_len)))  
+    else:
+        for im_name in bsdr:
+            print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+            print 'Demo for image {}'.format(im_name)
+            print(matplotlib.backends.backend)
+            demo(net, im_name)
 
-    """
-    ### Process video files as an input
-    clip = VideoFileClip("/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/P1_example.mp4")
-
-    start = time.time()
-    # Transform video and perform image flip
-    new_clip = clip.fl_image(demoVideo)
-
-    # Write a video to a file
-    new_clip.write_videofile("output-P1_example.mp4", audio=False)
-
-    end = time.time()
-    total_time = (end - start)
-
-    clip_len = time.strftime("%H:%M:%S", time.gmtime(clip.duration))
-    print((('Image transformations took {:.3f}s for '
-            '{} long video').format(total_time, clip_len)))
-    """
