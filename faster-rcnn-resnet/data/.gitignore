@@ -1,6 +1,5 @@
 selective_search*
 imagenet_models*
 fast_rcnn_models*
-!VGG16_faster_rcnn_final.caffemodel
 VOCdevkit*
 cache
