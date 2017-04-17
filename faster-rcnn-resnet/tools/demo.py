@@ -97,7 +97,7 @@ def demo(net, image_name):
 
     height, width = im.shape[:2]
     mid = width/2.5
-    print('height = {} and width/2.5 = {}'.format(height, mid))
+    # print('height = {} and width/2.5 = {}'.format(height, mid))
 
 
     # Detect all object classes and regress object bounds
@@ -105,8 +105,8 @@ def demo(net, image_name):
     timer.tic()
     scores, boxes = im_detect(net, im)
     timer.toc()
-    print ('Detection took {:.3f}s for '
-           '{:d} object proposals').format(timer.total_time, boxes.shape[0])
+    # print ('Detection took {:.3f}s for '
+    #        '{:d} object proposals').format(timer.total_time, boxes.shape[0])
 
     # Visualize detections for each class
     CONF_THRESH = 0.8
@@ -138,7 +138,7 @@ def demo(net, image_name):
    	# cv2.putText(im,'{:s} {:.3f}'.format(cls, score),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,255,255), 1)
 
     # Write the resulting frame
-    print 'Final image name is {}'.format(img_name)
+    # print 'Final image name is {}'.format(img_name)
     splitName = os.path.splitext(img_name)[0]
     # print (os.path.splitext(img_name)[0])
     # print splitName
@@ -176,7 +176,7 @@ def demoVideo(image):
 
     height, width = im.shape[:2]
     mid = width/2.5
-    print('height = {} and width/2.5 = {}'.format(height, mid))
+    # print('height = {} and width/2.5 = {}'.format(height, mid))
 
 
     # Detect all object classes and regress object bounds
@@ -184,8 +184,8 @@ def demoVideo(image):
     timer.tic()
     scores, boxes = im_detect(default_net, im)
     timer.toc()
-    print ('Detection took {:.3f}s for '
-           '{:d} object proposals').format(timer.total_time, boxes.shape[0])
+    # print ('Detection took {:.3f}s for '
+    #        '{:d} object proposals').format(timer.total_time, boxes.shape[0])
 
     # Visualize detections for each class
     CONF_THRESH = 0.8
@@ -238,7 +238,7 @@ if __name__ == '__main__':
     net = caffe.Net(prototxt, caffemodel, caffe.TEST)
     default_net = net
 
-    print '\n\nLoaded network {:s}'.format(caffemodel)
+    # print '\n\nLoaded network {:s}'.format(caffemodel)
 
     # Warmup on a dummy image
     im = 128 * np.ones((300, 500, 3), dtype=np.uint8)
@@ -257,7 +257,7 @@ if __name__ == '__main__':
         v_dir = glob.glob(vid_dir)
         # clip = VideoFileClip("/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/P1_example.mp4")
         for video in v_dir:
-            print 'Demo for video {}'.format(video)
+            # print 'Demo for video {}'.format(video)
             clip = VideoFileClip(video)
             start = time.time()
             # Transform video and perform image flip
@@ -270,12 +270,12 @@ if __name__ == '__main__':
             end = time.time()
             total_time = (end - start)
             clip_len = time.strftime("%H:%M:%S", time.gmtime(clip.duration))
-            print((('Image transformations took {:.3f}s for '
-                    '{} long video').format(total_time, clip_len)))  
+            # print((('Image transformations took {:.3f}s for '
+            #         '{} long video').format(total_time, clip_len)))  
     else:
         for im_name in bsdr:
-            print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-            print 'Demo for image {}'.format(im_name)
-            print(matplotlib.backends.backend)
+            # print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+            # print 'Demo for image {}'.format(im_name)
+            # print(matplotlib.backends.backend)
             demo(net, im_name)
-
+        print 'Image processing complete.'
