@@ -30,6 +30,7 @@ from fast_rcnn.config import cfg
 from fast_rcnn.test import im_detect
 from fast_rcnn.nms_wrapper import nms
 from utils.timer import Timer
+
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io as sio
@@ -37,6 +38,10 @@ import caffe, os, sys, cv2
 import argparse
 import cv2
 import time
+import lane_demo
+reload(lane_demo)
+from lane_demo import process_image
+
 
 CLASSES = ('__background__',
            'aeroplane', 'bicycle', 'bird', 'boat',
@@ -94,6 +99,11 @@ def demo(net, image_name):
     # im = cv2.imread(im_file)
     im_file = os.path.join(cfg.DATA_DIR, 'demo', image_name)
     im = cv2.imread(im_file)
+    
+    pimg = process_image(im)
+    # cv2.imshow("Processed", pimg)
+    # cv2.waitKey(0)
+    im = pimg
 
     height, width = im.shape[:2]
     mid = width/2.5
@@ -171,9 +181,9 @@ def parse_args():
     return args
 
 def demoVideo(image):
+  
+    im = process_image(image)
     
-    im = image
-
     height, width = im.shape[:2]
     mid = width/2.5
     # print('height = {} and width/2.5 = {}'.format(height, mid))
