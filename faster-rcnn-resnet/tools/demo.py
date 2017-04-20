@@ -279,9 +279,10 @@ if __name__ == '__main__':
             new_clip.write_videofile(output_vid, audio=False)
             end = time.time()
             total_time = (end - start)
+            total_dur = time.strftime("%H:%M:%S", time.gmtime(total_time))
             clip_len = time.strftime("%H:%M:%S", time.gmtime(clip.duration))
-            # print((('Image transformations took {:.3f}s for '
-            #         '{} long video').format(total_time, clip_len)))  
+            print((('Image transformations took {} = {:.3f}s for '
+                    '{} long video').format(total_dur, total_time, clip_len)))  
     else:
         for im_name in bsdr:
             # print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'

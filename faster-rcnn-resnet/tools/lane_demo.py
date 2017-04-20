@@ -166,7 +166,7 @@ def process_image(img):
     img = imutils.resize(img, height = min(480, img.shape[0]))
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    kernel_size = 7
+    kernel_size = 5
     blur_gray = gaussian_blur(gray,kernel_size)
 
     edges = canny(blur_gray, 5, 140)
