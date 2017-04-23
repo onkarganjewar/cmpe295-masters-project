@@ -1,0 +1,9 @@
+rm -rf /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/*
+python /home/student/cmpe295-masters-project/faster-rcnn-resnet/tools/demo.py
+rm -rf /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input/*
+#mv /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/* /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/in.jpg
+#cd /home/student/cmpe295-masters-project/LaneDetection
+#./c3 /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/in.jpg
+#rm -rf /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/*
+#cd /home/student/cmpe295-masters-project/LaneDetection
+#mv outIm_in.jpg /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/in.jpg

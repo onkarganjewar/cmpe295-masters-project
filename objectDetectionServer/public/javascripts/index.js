@@ -9,7 +9,6 @@ $('.upload-btn').on('click', function (){
 $('#upload-input').on('change', function(){
 
   var files = $(this).get(0).files;
-
   if (files.length > 0){
     // create a FormData object which will be sent as the data payload in the
     // AJAX request
@@ -18,6 +17,8 @@ $('#upload-input').on('change', function(){
     // loop through all the selected files and add them to the formData object
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
+      var filename = file.name
+      var filetype = filename.substring((filename.indexOf(".")) + 1);
 
       // add the files to formData object for the data payload
       formData.append('uploads[]', file, file.name);
@@ -33,11 +34,22 @@ $('#upload-input').on('change', function(){
           //console.log('upload successful!\n' + data);
           //var b64Response = btoa(unescape(encodeURIComponent(data)));
 	  //console.log(b64Response);
-          var outputImg = $('<img>');
-          outputImg.attr("width","500px");
-	  outputImg.attr("height","400px");
-          outputImg.attr("src","data:image/jpeg;base64, " + data);
-          outputImg.appendTo('.jumbotron');
+	  if(filetype === 'jpg'|| filetype === 'png' || filetype === 'jpeg' ){
+          	var outputImg = $('<img>');
+          	outputImg.attr("width","500px");
+	  	outputImg.attr("height","400px");
+	        outputImg.attr("src","data:image/jpeg;base64, " + data);
+          	outputImg.appendTo('.jumbotron');
+	  }else if(filetype === 'mp4' || filetype === 'avi'){
+	  	var outputVid = $('<video controls>');
+	  	outputVid.attr("width","500px");
+          	outputVid.attr("height","400px");
+          	outputVid.attr("src","data:video/mp4;base64, " + data);
+          	outputVid.appendTo('.jumbotron');
+	  }else{
+		alert("Invalid file type");
+		//break;
+	  }
       },
       xhr: function() {
         // create an XMLHttpRequest

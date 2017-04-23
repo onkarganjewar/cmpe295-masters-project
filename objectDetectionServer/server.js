@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const exec = require('child_process').execSync;
 var filename = "";
+var filetype = "";
 var base64data = "";
 
 app.set('port', process.env.PORT || 80);
@@ -27,7 +28,7 @@ app.post('/upload', function(req, res, next){
   form.multiples = true;
 
   // store all uploads in the mentioned directory
-  form.uploadDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/';
+  form.uploadDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input/';
 
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
@@ -35,7 +36,8 @@ app.post('/upload', function(req, res, next){
     fs.rename(file.path, path.join(form.uploadDir, file.name));
     filename = file.name;
     console.log(filename);
-    console.log(file.type);
+    filetype = file.type;
+    filetype = filetype.substring(0,5);
   });
 
   // log any errors that occur
@@ -60,9 +62,10 @@ app.post('/upload', function(req, res, next){
     	  //res.send("Object detection done!");
     	  //res.sendFile(__dirname + '/uploads/test.text');
               //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
-//	});
+//	})    
 
-   
+   if(filetype == "image"){   
+
     exec('sh /home/student/cmpe295-masters-project/execute', (error, stdout, stderr) => {
     	  if (error) {
     	   // console.error(`exec error: ${error}`);
@@ -75,9 +78,24 @@ app.post('/upload', function(req, res, next){
     	  //res.sendFile(__dirname + '/uploads/test.text');
               //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
 	});
+   }else{
+	
+     exec('sh /home/student/cmpe295-masters-project/videxe', (error, stdout, stderr) => {
+          if (error) {
+           // console.error(`exec error: ${error}`);
+            return;
+          }
+          console.log(`stdout: ${stdout}`);
+          console.log(`stderr: ${stderr}`);
+          //res.sendFile(__dirname + '/uploads/000456.jpg');
+          //res.send("Object detection done!");
+          //res.sendFile(__dirname + '/uploads/test.text');
+              //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
+        });
 
+   }
     
-     fs.readFile('/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/' + filename, function(err, data){
+     fs.readFile('/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/' + filename, function(err, data){
 	base64data = new Buffer(data).toString('base64');
 	res.send(base64data);
      });

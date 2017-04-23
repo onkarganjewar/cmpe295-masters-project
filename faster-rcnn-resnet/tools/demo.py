@@ -159,7 +159,7 @@ def demo(net, image_name):
     # cv2.waitKey(0)
     
     ## Write output frame
-    opDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-images/'
+    opDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/'
     cv2.imwrite(os.path.join(opDir, img_name), im)
 
 def parse_args():
@@ -255,14 +255,14 @@ if __name__ == '__main__':
     for i in xrange(2):
         _, _= im_detect(net, im)
 
-    im_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/'
+    im_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input/'
     im_dir += '/*'
     bsdr = glob.glob(im_dir)
    
     if args.video_mode:
         ## Process video files as an input
-        vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-videos/'
-        vid_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-videos/'
+        vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/'
+        vid_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input/'
         vid_dir += '*'
         v_dir = glob.glob(vid_dir)
         # clip = VideoFileClip("/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/P1_example.mp4")
@@ -273,9 +273,10 @@ if __name__ == '__main__':
             # Transform video and perform image flip
             new_clip = clip.fl_image(demoVideo)
             # Write a video to a file
-            vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output-videos/'
+            vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/'
             video_name = os.path.basename(video)
-            output_vid = (os.path.join(vid_out_dir,'processed_'+ video_name))
+            output_vid = (os.path.join(vid_out_dir,video_name))
+            print ('Output video name = {}'.format(output_vid))
             new_clip.write_videofile(output_vid, audio=False)
             end = time.time()
             total_time = (end - start)
