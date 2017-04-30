@@ -5,9 +5,49 @@
 	<!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"> -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/index.css">
+	<style type="text/css">
+		#notify {
+		  display: none;
+                  position: absolute;
+                  left: 48%;
+                  top: 58%;
+                  z-index: 1;
+                  width: 50px;
+                  height: 50px;
+		}
+		#loader {
+		  display: none;
+		  position: absolute;
+		  left: 55%;
+		  top: 62%;
+		  z-index: 1;
+		  width: 50px;
+		  height: 50px;
+		  margin: -75px 0 0 -75px;
+		  border: 2px solid #f3f3f3;
+		  border-radius: 50%;
+		  border-top: 2px solid #5cb85c;
+		  border-bottom: 2px solid #74c274;
+		  width: 50px;
+		  height: 50px;
+		  -webkit-animation: spin 1s linear infinite;
+		  animation: spin 1s linear infinite;
+		}
+
+		@-webkit-keyframes spin {
+		  0% { -webkit-transform: rotate(0deg); }
+		  100% { -webkit-transform: rotate(360deg); }
+		}
+
+		@keyframes spin {
+		  0% { transform: rotate(0deg); }
+		  100% { transform: rotate(360deg); }
+		}
+	</style>
 </head>
 <body>
-
+<div id="loader"></div>
+<div id="notify"><p>Processing...<p></div>
 <div class = 'container'>
 	<div class="jumbotron">
 		<h1>Object Detection Server</h1>

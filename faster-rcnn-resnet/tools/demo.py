@@ -269,6 +269,8 @@ if __name__ == '__main__':
         for video in v_dir:
             # print 'Demo for video {}'.format(video)
             clip = VideoFileClip(video)
+	    c = clip.duration
+            print ('duration of the file is {}'.format(c))
             start = time.time()
             # Transform video and perform image flip
             new_clip = clip.fl_image(demoVideo)

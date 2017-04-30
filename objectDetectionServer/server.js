@@ -24,8 +24,8 @@ app.post('/upload', function(req, res, next){
   // create an incoming form object
   var form = new formidable.IncomingForm();
 
-  // specify that we want to allow the user to upload multiple files in a single request
-  form.multiples = true;
+  // specify that we dont want to allow the user to upload multiple files in a single request
+  form.multiples = false;
 
   // store all uploads in the mentioned directory
   form.uploadDir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input/';
@@ -49,66 +49,40 @@ app.post('/upload', function(req, res, next){
   form.on('end', function() {
     
     console.log("File uploaded");
-    
-    
-   // exec('python /home/student/cmpe295-masters-project/faster-rcnn-resnet/tools/demo.py', (error, stdout, stderr) => {
-   // 	  if (error) {
-    	   // console.error(`exec error: ${error}`);
-    //	    return;
-   // 	  }
-    	 // console.log(`stdout: ${stdout}`);
-    	 // console.log(`stderr: ${stderr}`);
-    	  //res.sendFile(__dirname + '/uploads/000456.jpg');
-    	  //res.send("Object detection done!");
-    	  //res.sendFile(__dirname + '/uploads/test.text');
-              //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
-//	})    
 
    if(filetype == "image"){   
 
     exec('sh /home/student/cmpe295-masters-project/execute', (error, stdout, stderr) => {
     	  if (error) {
-    	   // console.error(`exec error: ${error}`);
+    	    console.error(`exec error: ${error}`);
     	    return;
     	  }
-    	 // console.log(`stdout: ${stdout}`);
-    	 // console.log(`stderr: ${stderr}`);
-    	  //res.sendFile(__dirname + '/uploads/000456.jpg');
-    	  //res.send("Object detection done!");
-    	  //res.sendFile(__dirname + '/uploads/test.text');
-              //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
+    	  console.log(`stdout: ${stdout}`);
+    	  console.log(`stderr: ${stderr}`);
 	});
    }else{
 	
      exec('sh /home/student/cmpe295-masters-project/videxe', (error, stdout, stderr) => {
           if (error) {
-           // console.error(`exec error: ${error}`);
+            console.error(`exec error: ${error}`);
             return;
           }
           console.log(`stdout: ${stdout}`);
           console.log(`stderr: ${stderr}`);
-          //res.sendFile(__dirname + '/uploads/000456.jpg');
-          //res.send("Object detection done!");
-          //res.sendFile(__dirname + '/uploads/test.text');
-              //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
         });
+	console.log("This line is written after exec");
 
    }
     
-     fs.readFile('/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/' + filename, function(err, data){
+     fs.createReadStream('/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/' + filename, {encoding: 'base64'}).pipe(res);
+
+    /* fs.readFile('/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/' + filename, function(err, data){
 	base64data = new Buffer(data).toString('base64');
 	res.send(base64data);
-     });
+     });*/
      //res.sendFile(__dirname + '/uploads/000456.jpg');
      //res.sendFile('/home/student/objectDetection/py-faster-rcnn/data/output-images/' + filename);
   });
-
-    
-   // exec('rm -rf /home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input-images/*.*', (error, stdout, stderr) => {
-     //   if(error){
-       //     console.log('rm -rf error: ' + error);
-       // }
-    //});
 
 
   // parse the incoming request containing the form data
