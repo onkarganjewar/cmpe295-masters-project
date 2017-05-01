@@ -38,9 +38,9 @@ import caffe, os, sys, cv2
 import argparse
 import cv2
 import time
-import lane_demo
-reload(lane_demo)
-from lane_demo import process_image
+import lane_detect
+reload(lane_detect)
+from lane_detect import process_image
 
 
 CLASSES = ('__background__',
