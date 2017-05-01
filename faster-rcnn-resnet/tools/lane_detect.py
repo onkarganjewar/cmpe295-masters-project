@@ -208,12 +208,12 @@ def process_image(img):
     # cv2.waitKey(0)
   
     # Create a "color" binary image to combine with line image
-    color_edges = np.dstack((img[:,:,2], img[:,:,1], img[:,:,0])) 
+    color_edges = np.dstack((img[:,:,0], img[:,:,1], img[:,:,2])) 
 
     # Draw the lines on the edge image
     final = weighted_img(final_lines, color_edges)
-    cv2.imshow("Final image", final)
-    cv2.waitKey(0)
+    # cv2.imshow("Final image", final)
+    # cv2.waitKey(0)
 
     return final
     
