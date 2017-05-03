@@ -128,7 +128,7 @@ models/*
 # faster-rcnn-resnet/data/*
 faster-rcnn-resnet/data/VOCdevkit0712*
 # faster-rcnn-resnet/models/*
-# *.pyc
+*.pyc
 .ipynb_checkpoints
 # lib/build
 # lib/pycocotools/_mask.c
