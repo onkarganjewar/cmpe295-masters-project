@@ -155,6 +155,9 @@ faster-rcnn-resnet/data/VOCdevkit0712*
 !001150.jpg
 !001763.jpg
 !004545.jpg
+!cat.jpg
+!cat_grey.jpg
+!fish-bike.jpg
 
 
 # build, distribute, and bins (+ python proto bindings)
