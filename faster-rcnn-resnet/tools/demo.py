@@ -57,6 +57,8 @@ NETS = {'vgg16': ('VGG16',
         }
 
 default_net = None
+count = 0
+
 
 def vis_detections(im, class_name, dets, thresh=0.5):
     """Draw detected bounding boxes."""
@@ -182,6 +184,19 @@ def parse_args():
 
 def demoVideo(image):
   
+    global count
+    count = count+1
+
+    # print ('count before = {}'.format(count))
+    if (count % 10) > 0:
+        # count = 1
+        im = process_image(image)
+	return im
+
+    # count = count+1 
+    # print ('processing image')
+    # print ('count = {}'.format(count))
+
     im = process_image(image)
     
     height, width = im.shape[:2]
