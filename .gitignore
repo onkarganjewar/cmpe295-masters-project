@@ -92,6 +92,18 @@ models/*
 *.tar
 *.tgz
 
+## caffe-fast-rcnn
+# build, distribute, and bins (+ python proto bindings)
+/caffe-fast-rcnn/build/
+caffe-fast-rcnn/.build_debug/*
+caffe-fast-rcnn/.build_release/*
+caffe-fast-rcnn/distribute/*
+caffe-fast-rcnn/*.testbin
+caffe-fast-rcnn/*.bin
+caffe-fast-rcnn/python/caffe/proto/
+caffe-fast-rcnn/cmake_build
+caffe-fast-rcnn/.cmake_build
+
 # Faster-rcnn-resnet
 # faster-rcnn-resnet/data/*
 faster-rcnn-resnet/data/VOCdevkit0712*
@@ -116,7 +128,7 @@ lib/pycocotools/_mask.so
 
 # ignore images apart from demo images
 *.jpg
-*.png 
+*.png
 *.jpeg
 !000456.jpg
 !000542.jpg
