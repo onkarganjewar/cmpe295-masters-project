@@ -140,6 +140,7 @@ lib/pycocotools/_mask.so
 !cat_gray.jpg
 !fish-bike.jpg
 
+# Exceptions
 !GitHub-Mark-64px.png
 !caffeine-icon.png
 !backward.jpg
@@ -155,11 +156,6 @@ docs/gathered
 _site
 doxygen
 docs/dev
-
-# Exceptions
-!docs/images/
-!docs/tutorial/
-!.gitignore
 
 # LevelDB files
 *.sst
