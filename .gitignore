@@ -141,13 +141,19 @@ lib/pycocotools/_mask.so
 !fish-bike.jpg
 
 
-# Generated documentation
+
+## Generated documentation
 docs/_site
 docs/_includes
 docs/gathered
 _site
 doxygen
 docs/dev
+
+# Exceptions
+!docs/images/
+!docs/tutorial/
+!.gitignore
 
 # LevelDB files
 *.sst
