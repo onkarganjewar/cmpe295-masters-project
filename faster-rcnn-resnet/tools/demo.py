@@ -284,11 +284,19 @@ if __name__ == '__main__':
         for video in v_dir:
             # print 'Demo for video {}'.format(video)
             clip = VideoFileClip(video)
-	    c = clip.duration
+            c = clip.duration
+            frames = clip.fps 
             print ('duration of the file is {}'.format(c))
+            print ('Frames per second =  {}'.format(frames))
+
             start = time.time()
             # Transform video and perform image flip
             new_clip = clip.fl_image(demoVideo)
+
+            ## Preview the processed video
+            # new_clip.preview(fps=frames)
+            # new_clip.preview()
+
             # Write a video to a file
             vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/'
             video_name = os.path.basename(video)
