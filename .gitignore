@@ -94,7 +94,7 @@ models/*
 
 ## caffe-fast-rcnn
 # build, distribute, and bins (+ python proto bindings)
-/caffe-fast-rcnn/build/
+caffe-fast-rcnn/build/
 caffe-fast-rcnn/.build_debug/*
 caffe-fast-rcnn/.build_release/*
 caffe-fast-rcnn/distribute/*
