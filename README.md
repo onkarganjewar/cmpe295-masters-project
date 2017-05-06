@@ -14,14 +14,16 @@ Object detection is based on the research conducted by Shaoqing Ren, Kaiming He,
 
 ### Install pre-requisites
 
-```Shell
-sudo apt-get update
-sudo updatedb
-sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev python-pip cmake cython python-opencv
-sudo apt-get install python-setuptools libgfortran3 build-essential gfortran python-all-dev libatlas-base-dev
-sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
-sudo pip install numpy
-```
+* Install the following packages if not already installed
+
+  ```Shell
+  sudo apt-get update
+  sudo updatedb
+  sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev python-pip cmake cython python-opencv
+  sudo apt-get install python-setuptools libgfortran3 build-essential gfortran python-all-dev libatlas-base-dev
+  sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+  sudo pip install numpy
+  ```
 
 ### Install CUDA
 
@@ -112,7 +114,9 @@ You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda
   cd faster-rcnn-resnet/data/output/
   ```
 
-## Sample output
+## Output video
+
+Click on the thumbnail below to play the sample output video on YouTube.
 
 
   [![Object and lane detection](https://img.youtube.com/vi/tiC2fCnUZZM/hqdefault.jpg)](https://www.youtube.com/watch?v=tiC2fCnUZZM)
