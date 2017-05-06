@@ -1,6 +1,6 @@
 # Object and lane detection for self-driving cars
 
-Object and lane detection of videos and/or images using [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and OpenCV. Based on the research conducted by Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun (Microsoft Research) described in [this](https://arxiv.org/pdf/1506.01497.pdf) paper.
+Object and lane detection for videos and/or images using [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and OpenCV. Object detection is based on the research conducted by Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun (Microsoft Research) described in [this](https://arxiv.org/pdf/1506.01497.pdf) paper.
 
 ![Sample output image](https://cloud.githubusercontent.com/assets/14006620/25769619/788d872a-31d3-11e7-88a3-e32a1431308d.png)
 
