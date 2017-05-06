@@ -2,6 +2,8 @@
 
 Object and lane detection of videos and/or images using [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and OpenCV. Based on the research conducted by Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun (Microsoft Research) described in [this](https://arxiv.org/pdf/1506.01497.pdf) paper.
 
+![Sample output image](https://cloud.githubusercontent.com/assets/14006620/25769619/788d872a-31d3-11e7-88a3-e32a1431308d.png)
+
 
 ## Installation
 
@@ -18,17 +20,17 @@ sudo pip install numpy
 
 ### Install CUDA
 
-You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda7.5-ubuntu) to install CUDA for your system. Or, you can follow below steps. 
+You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda7.5-ubuntu) to install CUDA for your system. Or, you can follow steps given below: 
 
 * Note: Depending upon platform and CUDA version, below names and deb package will defer.
 
- ```Shell
-sudo apt-get install nvidia-cuda-toolkit
-sudo apt-get install --no-install-recommends libboost-all-dev
-wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers  
-sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb
-sudo apt-get install cuda
-```
+  ```Shell
+  sudo apt-get install nvidia-cuda-toolkit
+  sudo apt-get install --no-install-recommends libboost-all-dev
+  wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers  
+  sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb
+  sudo apt-get install cuda	
+  ```
 
 * Add following lines in ~/.bashrc
 
@@ -38,8 +40,11 @@ sudo apt-get install cuda
   PATH=${CUDA_HOME}/bin:${PATH} 
   export PATH
   ```	  
- * Source the bashrc file 
- `source ~/.bashrc`
+ 
+* Source the bashrc file 
+
+  `source ~/.bashrc`
+
 
 ### Build modules
 
