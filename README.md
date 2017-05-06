@@ -1,24 +1,20 @@
-# CMPE295 Project
-## Object and lane detection for self-driving cars
+# Object and lane detection for self-driving cars
 
 Object and lane detection of videos and/or images using [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn) and OpenCV. Based on the research conducted by Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun (Microsoft Research) described in [this](https://arxiv.org/pdf/1506.01497.pdf) paper.
 
 
-### Installation
+## Installation
 
-#### Install pre-requisites
+### Install pre-requisites
 
-`sudo apt-get update`
-
-`sudo updatedb`
-
-`sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev python-pip cmake cython python-opencv`
-
-`sudo apt-get install python-setuptools libgfortran3 build-essential gfortran python-all-dev libatlas-base-dev`
-
-`sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler`
-
-`sudo pip install numpy`
+```Shell
+sudo apt-get update
+sudo updatedb
+sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev python-pip cmake cython python-opencv
+sudo apt-get install python-setuptools libgfortran3 build-essential gfortran python-all-dev libatlas-base-dev
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+sudo pip install numpy
+```
 
 #### Install CUDA
 
@@ -26,14 +22,13 @@ You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda
 
 * Note: Depending upon platform and CUDA version, below names and deb package will defer.
 
-
-  `sudo apt-get install nvidia-cuda-toolkit`
-		
-  `sudo apt-get install --no-install-recommends libboost-all-dev`
-
-  `wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers`
-  `sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb`
-  `sudo apt-get install cuda`
+ ```Shell
+sudo apt-get install nvidia-cuda-toolkit
+sudo apt-get install --no-install-recommends libboost-all-dev
+wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers  
+sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb
+sudo apt-get install cuda
+```
 
 * Add following lines in ~/.bashrc
 
@@ -43,7 +38,8 @@ You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda
   PATH=${CUDA_HOME}/bin:${PATH} 
   export PATH
   ```	  
-  `source ~/.bashrc`
+ * Source the bashrc file 
+ `source ~/.bashrc`
 
 #### Build modules
 
@@ -79,15 +75,19 @@ You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda
   make pycaffe  
   ```
 
-### Demo
+## Demo
 1. Store the input files at
 
-  `cd faster-rcnn-resnet/data/input/`
+  ```Shell
+  cd faster-rcnn-resnet/data/input/
+  ```
 
 2. Run the demo
 
-  `cd faster-rcnn-resnet/tools/`
-
+  ```Shell
+  cd faster-rcnn-resnet/tools/
+  ```
+  
   ```Shell
   # When input is ONLY image files, run this command
   python demo.py
@@ -98,4 +98,6 @@ You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda
 
 3. Retrieve the output files stored at
 
-`cd faster-rcnn-resnet/data/output/`
+  ```Shell
+  cd faster-rcnn-resnet/data/output/
+  ```
