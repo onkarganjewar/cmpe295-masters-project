@@ -16,7 +16,7 @@ sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev 
 sudo pip install numpy
 ```
 
-#### Install CUDA
+### Install CUDA
 
 You can refer [this](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda7.5-ubuntu) to install CUDA for your system. Or, you can follow below steps. 
 
@@ -41,7 +41,7 @@ sudo apt-get install cuda
  * Source the bashrc file 
  `source ~/.bashrc`
 
-#### Build modules
+### Build modules
 
 1. Clone this repository
   ```Shell
@@ -101,3 +101,8 @@ sudo apt-get install cuda
   ```Shell
   cd faster-rcnn-resnet/data/output/
   ```
+
+## Sample output
+
+
+  [![Object and lane detection](https://img.youtube.com/vi/tiC2fCnUZZM/hqdefault.jpg)](https://www.youtube.com/watch?v=tiC2fCnUZZM)
