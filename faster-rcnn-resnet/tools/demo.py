@@ -58,6 +58,9 @@ NETS = {'vgg16': ('VGG16',
 
 default_net = None
 count = 0
+cls_label = None
+b_box = None
+
 
 
 def demo(net, image_name):
@@ -153,17 +156,28 @@ def parse_args():
 def demoVideo(image):
   
     global count
+    global cls_label
+    global b_box
+  
     count = count+1
 
     # print ('count before = {}'.format(count))
     if (count % 10) > 0:
-        # count = 1
         im = process_image(image)
-	return im
 
-    # count = count+1 
-    # print ('processing image')
-    # print ('count = {}'.format(count))
+        height, width = im.shape[:2]
+        mid = width/2.5
+        if cls_label is not None:
+           # print('saved label is = {}'.format(cls_label))
+           font = cv2.FONT_HERSHEY_SIMPLEX
+
+           cv2.rectangle(im,(b_box[0], b_box[1]), (b_box[2], b_box[3]), (0,0,255), 2)
+           if b_box[0] < mid:
+                # cv2.putText(im,'left {:s}'.format(label),(b_box[0], (int)((b_box[1]- 2))), cv2.FONT_HERSHEY_PLAIN, fontScale=1.25, thickness=3, color=(255, 255, 255))
+                cv2.putText(im,'left {:s}'.format(cls_label),(b_box[0], (int)((b_box[1]- 2))), font, 0.5, (255,0,0), 1)
+           else:
+                cv2.putText(im,'right {:s}'.format(cls_label),(b_box[0], (int)((b_box[1]- 2))), font, 0.5, (255,0,0), 1)
+        return im
 
     im = process_image(image)
     
@@ -183,6 +197,7 @@ def demoVideo(image):
     # Visualize detections for each class
     CONF_THRESH = 0.8
     NMS_THRESH = 0.3
+
     for cls_ind, cls in enumerate(CLASSES[1:]):
         cls_ind += 1 # because we skipped background
         cls_boxes = boxes[:, 4*cls_ind:4*(cls_ind + 1)]
@@ -192,13 +207,15 @@ def demoVideo(image):
         keep = nms(dets, NMS_THRESH)
         dets = dets[keep, :]
 	font = cv2.FONT_HERSHEY_SIMPLEX
-
+       
 	color = (0, 0, 255)	
 	inds = np.where(dets[:, -1] >= CONF_THRESH)[0]
     	if len(inds) > 0:
 	   for i in inds:
             	bbox = dets[i, :4]
+                b_box = bbox
             	score = dets[i, -1]
+		cls_label = cls
             	cv2.rectangle(im,(bbox[0], bbox[1]), (bbox[2], bbox[3]), color, 2)
                 if bbox[0] < mid:
                    cv2.putText(im,'left {:s}'.format(cls),(bbox[0], (int)((bbox[1]- 2))), font, 0.5, (255,0,0), 1)
