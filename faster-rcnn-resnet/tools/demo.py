@@ -154,7 +154,7 @@ def parse_args():
     return args
 
 def demoVideo(image):
-  
+
     global count
     global cls_label
     global b_box
@@ -197,6 +197,8 @@ def demoVideo(image):
     # Visualize detections for each class
     CONF_THRESH = 0.8
     NMS_THRESH = 0.3
+    cls_label = None
+
 
     for cls_ind, cls in enumerate(CLASSES[1:]):
         cls_ind += 1 # because we skipped background
