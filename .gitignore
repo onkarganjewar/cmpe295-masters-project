@@ -97,7 +97,7 @@ models/*
 build
 caffe-fast-rcnn/build/
 caffe-fast-rcnn/.build_debug/*
-caffe-fast-rcnn/.build_release/*
+.build_release
 caffe-fast-rcnn/distribute/*
 caffe-fast-rcnn/*.testbin
 caffe-fast-rcnn/*.bin
