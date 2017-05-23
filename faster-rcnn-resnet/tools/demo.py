@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 
-# --------------------------------------------------------
-# Faster R-CNN
-# Copyright (c) 2015 Microsoft
-# Licensed under The MIT License [see LICENSE for details]
-# Written by Ross Girshick
-# --------------------------------------------------------
-
 """
 Demo script showing detections in sample images.
 
@@ -267,14 +260,18 @@ if __name__ == '__main__':
         vid_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input/'
         vid_dir += '*'
         v_dir = glob.glob(vid_dir)
+        flist = os.listdir('/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/input/') # dir is your directory path
+        number_files = len(flist)
+        # print number_files
+        counter = 0
         # clip = VideoFileClip("/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/demo/P1_example.mp4")
         for video in v_dir:
+            counter += 1
             # print 'Demo for video {}'.format(video)
             clip = VideoFileClip(video)
             c = clip.duration
             frames = clip.fps 
-            print ('duration of the file is {}'.format(c))
-            print ('Frames per second =  {}'.format(frames))
+            # print ('Frames per second =  {}'.format(frames))
 
             start = time.time()
             # Transform video and perform image flip
@@ -288,14 +285,16 @@ if __name__ == '__main__':
             vid_out_dir = '/home/student/cmpe295-masters-project/faster-rcnn-resnet/data/output/'
             video_name = os.path.basename(video)
             output_vid = (os.path.join(vid_out_dir,video_name))
-            print ('Output video name = {}'.format(output_vid))
+            print('Processing ({}/{}) files'.format(counter,number_files))
+            print('Duration of the video is {} seconds'.format(c))
+
             new_clip.write_videofile(output_vid, audio=False)
             end = time.time()
             total_time = (end - start)
             total_dur = time.strftime("%H:%M:%S", time.gmtime(total_time))
             clip_len = time.strftime("%H:%M:%S", time.gmtime(clip.duration))
             print((('Image transformations took {} = {:.3f}s for '
-                    '{} long video').format(total_dur, total_time, clip_len)))  
+                    '{} long video\n').format(total_dur, total_time, clip_len)))  
     else:
         for im_name in bsdr:
             # print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
